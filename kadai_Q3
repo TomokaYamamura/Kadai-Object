@@ -37,13 +37,13 @@ class Car
 
 class Honda extends Car {
     public function __construct() {
-        parent::__construct("Honda", 6, 200, 100);
+        parent::__construct("Honda", 6, rand(180, 250), 100);
     }
 }
 
 class Nissan extends Car {
     public function __construct() {
-        parent::__construct("Nissan", 5, 150, 150);
+        parent::__construct("Nissan", 5, rand(100, 180), 150);
     }
 }
 //Ferraiクラスに機能追加
@@ -51,7 +51,7 @@ class Ferrari extends Car {
     public $rideHeight = 0;
 
     public function __construct() {
-        parent::__construct("Ferrari", 2, 5000, 200);
+        parent::__construct("Ferrari", 2, rand(4000, 6000), 200);
     }
 
     public function getRideHeight() {
@@ -80,11 +80,20 @@ class Ferrari extends Car {
     }
 }
 
-$ferrari = new Ferrari();
-$ferrari->showData();
-$ferrari->lift();
-$ferrari->showData();
-$ferrari->lower();
-$ferrari->showData();
+$carNames = array(new Honda(), new Nissan(), new Ferrari());
+
+$totalPrice = 0;
+foreach ($carNames as $carName) {
+    $name = $carName->name;
+    $price = $carName->price;
+    echo "車種: {$name}\n";
+    echo "価格: {$price}万円\n";
+    $totalPrice += $price;
+}
+
+$averagePrice = $totalPrice / count($carNames);
+
+echo "合計金額は: {$totalPrice}万円\n";
+echo "平均金額は: {$averagePrice}万円\n";
 
 ?>
