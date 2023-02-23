@@ -1,0 +1,60 @@
+<?php
+
+class Car
+{
+    public $name;
+    public $capacity;
+    public $price;
+    public $speed;
+
+    public function __construct($name, $capacity, $price, $speed) {
+    $this->name = $name;
+    $this->capacity = $capacity;
+    $this->price = $price;
+    $this->speed = $speed;
+    }
+
+    public function accelerate(){
+        echo "{$this->name}がアクセルを踏んだ\n";
+    }
+
+    public function brake(){
+        echo "{$this->name}がブレーキを踏んだ\n";
+    }
+
+    public function getCapacity() {
+    return $this->capacity;
+    }
+
+    public function getPrice() {
+        return $this->price;
+    }
+
+    public function getSpeed() {
+    return $this->speed;
+    }
+
+}
+
+$honda = new Car("Honda", 6, 200, 100);
+echo "Hondaの定員は: " . $honda->getCapacity() . "人\n";
+echo "Hondaの価格は: " . $honda->getPrice() . "万円\n";
+echo "Hondaの加速は: " . $honda->getSpeed() . "km/h\n";
+$honda->accelerate();
+$honda->brake();
+
+$nissan = new Car("Nissan", 5, 150, 150);
+echo "Nissanの定員は: " . $nissan->getCapacity() . "人\n";
+echo "Nissanの価格は: " . $nissan->getPrice() . "万円\n";
+echo "Nissanの加速は: " . $nissan->getSpeed() . "km/h\n";
+$nissan->accelerate();
+$nissan->brake();
+
+$ferrari = new Car("Ferrari", 2, 5000, 200);
+echo "Ferrariの定員は: " . $ferrari->getCapacity() . "人\n";
+echo "Ferrariの価格は: " . $ferrari->getPrice() . "万円\n";
+echo "Ferrariの加速は: " . $ferrari->getSpeed() . "km/h\n";
+$ferrari->accelerate();
+$ferrari->brake();
+
+?>
