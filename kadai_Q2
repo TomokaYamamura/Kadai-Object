@@ -1,0 +1,89 @@
+<?php
+
+class Car
+{
+    public $name;
+    public $capacity;
+    public $price;
+    public $speed;
+
+    public function __construct($name, $capacity, $price, $speed) {
+      $this->name = $name;
+      $this->capacity = $capacity;
+      $this->price = $price;
+      $this->speed = $speed;
+    }
+
+    public function getCapacity() {
+        return $this->capacity;
+    }
+
+    public function getPrice() {
+        return $this->price;
+    }
+
+    public function getSpeed() {
+        return $this->speed;
+    }
+
+    public function accelerate(){
+        echo "{$this->name}がアクセルを踏んだ\n";
+    }
+
+    public function brake(){
+        echo "{$this->name}がブレーキを踏んだ\n";
+    }
+}
+
+class Honda extends Car {
+    public function __construct() {
+        parent::__construct("Honda", 6, 200, 100);
+    }
+}
+
+class Nissan extends Car {
+    public function __construct() {
+        parent::__construct("Nissan", 5, 150, 150);
+    }
+}
+//Ferraiクラスに機能追加
+class Ferrari extends Car {
+    public $rideHeight = 0;
+
+    public function __construct() {
+        parent::__construct("Ferrari", 2, 5000, 200);
+    }
+
+    public function getRideHeight() {
+        return $this->rideHeight;
+    }
+
+    public function lift() {
+        if ($this->rideHeight === 0) {
+            echo "リフトアップします\n";
+            $this->speed *= 0.8;
+            $this->rideHeight += 40;
+        }
+    }
+
+    public function lower() {
+        if ($this->rideHeight === 40) {
+            echo "リフトダウンします\n";
+            $this->speed /= 0.8;
+            $this->rideHeight -= 40;
+        }
+    }
+
+    public function showData() {
+      echo "Ferrariの車高は: " . $this->getRideHeight() . "mm\n";
+      echo "Ferrariの加速は: " . $this->getSpeed() . "km/h\n";
+    }
+}
+
+$ferrari = new Ferrari();
+$ferrari->showData();
+$ferrari->lift();
+$ferrari->showData();
+$ferrari->lower();
+$ferrari->showData();
+?>
