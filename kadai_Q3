@@ -34,7 +34,7 @@ class Car
         echo "{$this->name}がブレーキを踏んだ\n";
     }
 }
-
+//価格をランダムに設定
 class Honda extends Car {
     public function __construct() {
         parent::__construct("Honda", 6, rand(180, 250), 100);
@@ -46,7 +46,7 @@ class Nissan extends Car {
         parent::__construct("Nissan", 5, rand(100, 180), 150);
     }
 }
-//Ferraiクラスに機能追加
+
 class Ferrari extends Car {
     public $rideHeight = 0;
 
@@ -82,6 +82,7 @@ class Ferrari extends Car {
 
 $carNames = array(new Honda(), new Nissan(), new Ferrari());
 
+//合計金額の計算
 $totalPrice = 0;
 foreach ($carNames as $carName) {
     $name = $carName->name;
@@ -91,6 +92,7 @@ foreach ($carNames as $carName) {
     $totalPrice += $price;
 }
 
+//平均金額の計算
 $averagePrice = $totalPrice / count($carNames);
 
 echo "合計金額は: {$totalPrice}万円\n";
