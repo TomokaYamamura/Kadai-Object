@@ -1,0 +1,145 @@
+<?php
+
+class Car
+{
+    public $name;
+    public $capacity;
+    public $price;
+    public $speed;
+    public $currentPassengers;
+    public $brakeProb;
+
+    public function __construct($name, $capacity, $price, $speed, $currentPassengers, $brakeProb) {
+      $this->name = $name;
+      $this->capacity = $capacity;
+      $this->price = $price;
+      $this->speed = $speed;
+      $this->currentPassengers = $currentPassengers;
+      $this->brakeProb = $brakeProb;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function getCapacity() {
+        return $this->capacity;
+    }
+
+    public function getPrice() {
+        return $this->price;
+    }
+
+    public function getCurrentPassengers() {
+        return $this->currentPassengers;
+    }
+
+    public function getSpeed() {
+        return $this->speed * (1 - ($this->currentPassengers * 0.05));
+    }
+
+    public function accelerate(){
+        return (($this->getSpeed()*1000)/60)/60; //時速を秒速に変換
+      }
+
+    public function brake(){
+        return rand(1,100); //ブレーキの所要時間1秒~100秒を設定
+    }
+
+    public function raceTime($distance) {
+        $time = $distance / $this->accelerate(); //アクセル全開時の所要時間を計算
+        $time += (1 - $this->brakeProb) * $this->brake(); //上記にブレーキ所要時間を追加
+        return $time;
+    }
+}
+
+class Honda extends Car {
+    public function __construct() {
+        parent::__construct("Honda", 6, rand(181, 250), 100, rand(1, 6),0.1);
+    }
+}
+
+class Nissan extends Car {
+    public function __construct() {
+        parent::__construct("Nissan", 5, rand(100, 180), 150, rand(1, 5),0.2);
+    }
+
+    public function getSpeed() {
+        $speed = $this->speed * 0.6;
+        return $speed * (1 - ($this->currentPassengers * 0.05));
+    }
+}
+
+class Ferrari extends Car {
+    public $rideHeight = 0;
+
+    public function __construct() {
+        parent::__construct("Ferrari", 2, rand(4000, 6000), 250, rand(1, 2),0.3);
+    }
+
+    public function getRideHeight() {
+        return $this->rideHeight;
+    }
+
+    public function lift() {
+        if ($this->rideHeight === 0) {
+            echo "リフトアップします\n";
+            $this->speed *= 0.8;
+            $this->rideHeight += 40;
+        }
+    }
+
+    public function lower() {
+        if ($this->rideHeight === 40) {
+            echo "リフトダウンします\n";
+            $this->speed /= 0.8;
+            $this->rideHeight -= 40;
+        }
+    }
+
+    public function showData() {
+      echo "Ferrariの車高は: " . $this->getRideHeight() . "mm\n";
+      echo "Ferrariの加速は: " . $this->getSpeed() . "km/h\n";
+    }
+}
+//Toyotaクラスを追加
+class Toyota extends Car {
+    public function __construct($price) {
+        $speed = $price * 0.3;
+        parent::__construct("Toyota", 4, $speed, $price, rand(1, 4),0.4);
+    }
+}
+
+// Carクラスの配列を追加
+$cars = [
+    new Honda(),
+    new Nissan(),
+    new Ferrari(),
+    new Toyota(rand(100,300)),
+];
+
+// レースの距離を定義
+$distance = 10000; // メートル
+
+// レースのシミュレーション
+$positions = [];
+foreach ($cars as $car) {
+    $time = $car->raceTime($distance);
+    $positions[] = [
+        "name" => $car->name,
+        "time" => $time,
+    ];
+}
+
+// 所要時間を元に結果をソート
+usort($positions, function ($a, $b) {
+    return $a["time"] - $b["time"];
+});
+
+// 順位を出力
+echo "結果発表:\n";
+foreach ($positions as $i => $position) {
+    echo ($i + 1) . ". " . $position["name"] . " 所要時間:" . round($position["time"], 2) . "秒" . "\n";
+}
+
+?>

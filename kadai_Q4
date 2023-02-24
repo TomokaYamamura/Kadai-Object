@@ -1,0 +1,109 @@
+<?php
+
+class Car
+{
+    public $name;
+    public $capacity;
+    public $price;
+    public $speed;
+    public $currentPassengers; //乗員数を追加
+
+    public function __construct($name, $capacity, $price, $speed, $currentPassengers) {
+      $this->name = $name;
+      $this->capacity = $capacity;
+      $this->price = $price;
+      $this->speed = $speed;
+      $this->currentPassengers = $currentPassengers;
+    }
+
+    public function getCapacity() {
+        return $this->capacity;
+    }
+
+    public function getPrice() {
+        return $this->price;
+    }
+    //乗員数を取得するメソッドを追加
+    public function getCurrentPassengers() {
+        return $this->currentPassengers;
+    }
+
+    public function getSpeed() {
+        return $this->speed * (1 - ($this->currentPassengers * 0.05));
+    }
+
+    public function accelerate(){
+        echo "{$this->name}がアクセルを踏んだ\n";
+    }
+
+    public function brake(){
+        echo "{$this->name}がブレーキを踏んだ\n";
+    }
+}
+
+class Honda extends Car {
+    public function __construct() {
+        parent::__construct("Honda", 6, rand(180, 250), 100, rand(1, 6));
+    }
+}
+
+class Nissan extends Car {
+    public function __construct() {
+        parent::__construct("Nissan", 5, rand(100, 180), 150, rand(1, 5));
+    }
+    //Nissanのみ加速値が60%になるように、getSpeed()をオーバーライド
+    public function getSpeed() {
+        $speed = $this->speed * 0.6;
+        return $speed * (1 - ($this->currentPassengers * 0.05));
+    }
+}
+
+class Ferrari extends Car {
+    public $rideHeight = 0;
+
+    public function __construct() {
+        parent::__construct("Ferrari", 2, rand(4000, 6000), 200, rand(1, 2));
+    }
+
+    public function getRideHeight() {
+        return $this->rideHeight;
+    }
+
+    public function lift() {
+        if ($this->rideHeight === 0) {
+            echo "リフトアップします\n";
+            $this->speed *= 0.8;
+            $this->rideHeight += 40;
+        }
+    }
+
+    public function lower() {
+        if ($this->rideHeight === 40) {
+            echo "リフトダウンします\n";
+            $this->speed /= 0.8;
+            $this->rideHeight -= 40;
+        }
+    }
+
+    public function showData() {
+      echo "Ferrariの車高は: " . $this->getRideHeight() . "mm\n";
+      echo "Ferrariの加速は: " . $this->getSpeed() . "km/h\n";
+    }
+}
+
+$honda = new Honda();
+echo "Hondaの定員は: " . $honda->getCapacity() . "人\n";
+echo "Hondaの乗員数は: " . $honda->getCurrentPassengers() . "人\n";
+echo "Hondaの加速は: " . $honda->getSpeed() . "km/h\n";
+
+$nissan = new Nissan();
+echo "Nissanの定員は: " . $nissan->getCapacity() . "人\n";
+echo "Nissanの乗員数は: " . $nissan->getCurrentPassengers() . "人\n";
+echo "Nissanの加速は: " . $nissan->getSpeed() . "km/h\n";
+
+$ferrari = new Ferrari();
+echo "Ferrariの定員は: " . $ferrari->getCapacity() . "人\n";
+echo "Ferrariの乗員数は: " . $ferrari->getCurrentPassengers() . "人\n";
+echo "Ferrariの加速は: " . $ferrari->getSpeed() . "km/h\n";
+
+?>
